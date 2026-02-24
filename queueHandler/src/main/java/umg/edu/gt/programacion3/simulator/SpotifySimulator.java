@@ -5,12 +5,21 @@ import umg.edu.gt.programacion3.model.Song;
 
 public class SpotifySimulator {
     
-    private Queue<Song> highPriorityQueue;  // Prioridad 1
+    private Queue<Song> highPriorityQueue;   // Prioridad 1
     private Queue<Song> normalPriorityQueue; // Prioridad 2
+    
+    // Extensiones Parte D
+    private Queue<Song> playedHistory;       // Historial de canciones reproducidas
+    private int totalSongsPlayed;            // Contador total de canciones
+    private int totalAccumulatedTime;        // Tiempo total acumulado (en segundos)
     
     public SpotifySimulator() {
         highPriorityQueue = new Queue<>();
         normalPriorityQueue = new Queue<>();
+        // Inicializar extensiones
+        playedHistory = new Queue<>();
+        totalSongsPlayed = 0;
+        totalAccumulatedTime = 0;
     }
     
     // Agregar canción según su prioridad
@@ -54,6 +63,11 @@ public class SpotifySimulator {
         }
         
         System.out.println("[LOG] Finished: " + song.getTitle());
+        
+        // Actualizar extensiones (Parte D)
+        playedHistory.enqueue(song);
+        totalSongsPlayed++;
+        totalAccumulatedTime += song.getDuration();
     }
     
     // Iniciar playlist
@@ -68,5 +82,24 @@ public class SpotifySimulator {
         }
         
         System.out.println("[LOG] Playlist finished.");
+        
+        // Mostrar estadísticas finales (Parte D)
+        System.out.println("\n========== ESTADÍSTICAS FINALES ==========");
+        System.out.println("Total de canciones reproducidas: " + totalSongsPlayed);
+        System.out.println("Tiempo total acumulado: " + totalAccumulatedTime + " segundos");
+        System.out.println("===========================================");
+    }
+    
+    // Getters para extensiones (Parte D)
+    public int getTotalSongsPlayed() {
+        return totalSongsPlayed;
+    }
+    
+    public int getTotalAccumulatedTime() {
+        return totalAccumulatedTime;
+    }
+    
+    public Queue<Song> getPlayedHistory() {
+        return playedHistory;
     }
 }
